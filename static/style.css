@@ -1,0 +1,713 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --virus-red: #ff0040;
+    --dark-red: #8b0000;
+    --black: #0a0a0a;
+    --virus-glow: 0 0 20px #ff0040;
+    --matrix-green: #00ff41;
+}
+
+body {
+    font-family: 'Roboto Mono', monospace;
+    background: var(--black);
+    color: #fff;
+    overflow-x: hidden;
+    position: relative;
+}
+
+.matrix-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+    background: radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 0, 64, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.3) 0%, transparent 50%);
+    animation: matrixShift 20s infinite linear;
+}
+
+@keyframes matrixShift {
+    0%, 100% { transform: translate(0, 0); }
+    33% { transform: translate(30px, -30px); }
+    66% { transform: translate(-20px, 20px); }
+}
+
+/* CONTAINER */
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* HEADER */
+.header {
+    background: rgba(10, 10, 10, 0.95);
+    backdrop-filter: blur(20px);
+    border-bottom: 2px solid var(--virus-red);
+    box-shadow: var(--virus-glow);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 0;
+    min-height: 90px;
+}
+
+.logo-section {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.virus-logo {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    position: relative;
+}
+
+.virus-core {
+    width: 70px;
+    height: 70px;
+    background: radial-gradient(circle, var(--virus-red) 20%, transparent 70%);
+    border: 3px solid #ff3366;
+    border-radius: 50%;
+    position: relative;
+    animation: virusPulse 2s infinite;
+}
+
+.virus-core::before,
+.virus-core::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    animation: virusRings 3s infinite linear;
+}
+
+.virus-core::before {
+    border: 2px solid rgba(255, 0, 64, 0.6);
+    animation-delay: 0s;
+}
+
+.virus-core::after {
+    border: 2px solid rgba(255, 51, 102, 0.4);
+    animation-delay: 1.5s;
+}
+
+.virus-logo span {
+    font-family: 'Orbitron', monospace;
+    font-size: 2.5rem;
+    font-weight: 900;
+    background: linear-gradient(45deg, #ff0040, #ff3366, #ff6699);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: var(--virus-glow);
+    letter-spacing: 3px;
+}
+
+.status-bar {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    background: rgba(255, 0, 64, 0.1);
+    padding: 0.8rem 1.5rem;
+    border-radius: 25px;
+    border: 1px solid rgba(255, 51, 102, 0.3);
+    backdrop-filter: blur(10px);
+}
+
+.status {
+    font-size: 0.9rem;
+    color: var(--matrix-green);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+#time {
+    font-family: 'Orbitron', monospace;
+    font-size: 1rem;
+    color: #ff6666;
+}
+
+/* NAV */
+.nav-bar {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.search-box {
+    display: flex;
+    gap: 0.5rem;
+    background: rgba(255, 0, 64, 0.1);
+    padding: 0.8rem;
+    border-radius: 30px;
+    border: 2px solid rgba(255, 51, 102, 0.5);
+    backdrop-filter: blur(15px);
+}
+
+.search-box input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #fff;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 1rem;
+    padding: 0.5rem;
+    flex: 1;
+    min-width: 250px;
+}
+
+.search-box input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.search-box button,
+.btn-auth,
+.btn-logout,
+.btn-admin {
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 25px;
+    font-family: 'Orbitron', monospace;
+    font-weight: 700;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    box-shadow: var(--virus-glow);
+    position: relative;
+    overflow: hidden;
+}
+
+.search-box button {
+    background: linear-gradient(45deg, var(--virus-red), #ff3366);
+    color: #fff;
+    min-width: 120px;
+}
+
+.btn-auth {
+    background: linear-gradient(45deg, #ff3366, #ff6699);
+    color: #fff;
+    font-size: 0.85rem;
+}
+
+.btn-admin {
+    background: linear-gradient(45deg, var(--virus-red), #cc0033);
+    color: #fff;
+    font-size: 0.8rem;
+}
+
+.btn-logout {
+    background: linear-gradient(45deg, #333, #666);
+    color: #fff;
+    font-size: 0.8rem;
+}
+
+.btn-auth:hover,
+.search-box button:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 10px 30px rgba(255, 0, 64, 0.6);
+}
+
+/* MAIN */
+.main {
+    padding: 4rem 0;
+    min-height: calc(100vh - 150px);
+}
+
+.session-info {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    background: rgba(255, 0, 64, 0.15);
+    padding: 1.5rem 2.5rem;
+    border-radius: 20px;
+    border: 2px solid rgba(255, 51, 102, 0.4);
+    backdrop-filter: blur(20px);
+    margin-bottom: 3rem;
+}
+
+.user-avatar {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(45deg, var(--virus-red), #ff3366);
+    border-radius: 50%;
+    box-shadow: var(--virus-glow);
+}
+
+.role {
+    background: rgba(0, 255, 65, 0.2);
+    color: var(--matrix-green);
+    padding: 0.3rem 1rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+/* STATS */
+.stats-panel {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    margin-bottom: 4rem;
+}
+
+.stat-item {
+    background: rgba(255, 0, 64, 0.1);
+    padding: 2rem;
+    border-radius: 20px;
+    border: 2px solid rgba(255, 51, 102, 0.3);
+    backdrop-filter: blur(15px);
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.stat-item:hover {
+    border-color: var(--virus-red);
+    box-shadow: var(--virus-glow);
+}
+
+.stat-label {
+    display: block;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.stat-value {
+    font-family: 'Orbitron', monospace;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--virus-red);
+}
+
+.status-online {
+    color: var(--matrix-green) !important;
+}
+
+/* SECTION */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3rem;
+}
+
+#pageTitle {
+    font-family: 'Orbitron', monospace;
+    font-size: 3rem;
+    font-weight: 900;
+    background: linear-gradient(45deg, var(--virus-red), #ff3366, #ff6699);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: var(--virus-glow);
+}
+
+.section-controls {
+    display: flex;
+    gap: 1rem;
+}
+
+.btn-sort {
+    padding: 1rem 1.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border: 2px solid rgba(255, 51, 102, 0.5);
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-sort:hover {
+    background: var(--virus-red);
+    border-color: var(--virus-red);
+}
+
+/* GAMES GRID */
+.games-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: 2.5rem;
+}
+
+.game-card {
+    background: linear-gradient(145deg, rgba(255, 0, 64, 0.1), rgba(10, 10, 10, 0.9));
+    border: 2px solid rgba(255, 51, 102, 0.4);
+    border-radius: 25px;
+    padding: 2.5rem;
+    backdrop-filter: blur(20px);
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+    overflow: hidden;
+}
+
+.game-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--virus-red), transparent);
+    transition: left 0.6s;
+}
+
+.game-card:hover::before {
+    left: 100%;
+}
+
+.game-card:hover {
+    transform: translateY(-20px);
+    border-color: var(--virus-red);
+    box-shadow: var(--virus-glow), 0 30px 60px rgba(255, 0, 64, 0.4);
+}
+
+.game-avatar {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 20px;
+    margin-bottom: 2rem;
+    border: 3px solid rgba(255, 51, 102, 0.6);
+    box-shadow: var(--virus-glow);
+}
+
+.game-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    color: var(--virus-red);
+    text-shadow: 0 0 15px rgba(255, 0, 64, 0.5);
+}
+
+.game-desc {
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.7;
+    margin-bottom: 2rem;
+}
+
+.download-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 2rem;
+    border-top: 2px solid rgba(255, 51, 102, 0.3);
+}
+
+.download-count {
+    color: var(--matrix-green);
+    font-weight: 500;
+}
+
+.download-btn {
+    padding: 1.2rem 2.5rem;
+    background: linear-gradient(45deg, var(--virus-red), #ff3366);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 30px;
+    font-weight: 700;
+    font-family: 'Orbitron', monospace;
+    box-shadow: var(--virus-glow);
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+.download-btn:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 20px 40px rgba(255, 0, 64, 0.6);
+}
+
+/* ADMIN CONSOLE */
+.admin-console {
+    background: rgba(10, 10, 10, 0.95);
+    border: 3px solid var(--virus-red);
+    border-radius: 25px;
+    padding: 3rem;
+    margin-top: 4rem;
+    backdrop-filter: blur(25px);
+    box-shadow: var(--virus-glow), 0 0 100px rgba(255, 0, 64, 0.3);
+}
+
+.console-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 2px solid rgba(255, 51, 102, 0.4);
+}
+
+.console-header h2 {
+    font-family: 'Orbitron', monospace;
+    font-size: 2rem;
+    color: var(--virus-red);
+}
+
+.btn-close {
+    background: rgba(255, 51, 102, 0.2);
+    border: 2px solid #ff3366;
+    color: #fff;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.5rem;
+}
+
+.upload-form .form-group {
+    margin-bottom: 2rem;
+}
+
+.upload-form label {
+    display: block;
+    color: var(--matrix-green);
+    font-weight: 500;
+    margin-bottom: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.9rem;
+}
+
+.upload-form input,
+.upload-form textarea {
+    width: 100%;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 2px solid rgba(255, 51, 102, 0.4);
+    border-radius: 15px;
+    color: #fff;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 1rem;
+    transition: all 0.3s;
+}
+
+.upload-form input:focus,
+.upload-form textarea:focus {
+    outline: none;
+    border-color: var(--virus-red);
+    box-shadow: var(--virus-glow);
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.btn-infect {
+    width: 100%;
+    padding: 2rem;
+    background: linear-gradient(45deg, var(--virus-red), #ff3366, var(--virus-red));
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    font-size: 1.3rem;
+    font-weight: 700;
+    font-family: 'Orbitron', monospace;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    box-shadow: var(--virus-glow);
+    transition: all 0.4s;
+}
+
+.btn-infect:hover {
+    transform: scale(1.02);
+    box-shadow: 0 20px 50px rgba(255, 0, 64, 0.7);
+}
+
+/* MODAL */
+.virus-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(30px);
+    z-index: 9999;
+    animation: modalFade 0.4s ease;
+}
+
+.modal-container {
+    margin: 8% auto;
+    width: 90%;
+    max-width: 500px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 2.5rem 1.5rem;
+    border-bottom: 2px solid rgba(255, 51, 102, 0.4);
+}
+
+.modal-header h3 {
+    font-family: 'Orbitron', monospace;
+    font-size: 1.6rem;
+    color: var(--virus-red);
+}
+
+.modal-close {
+    background: transparent;
+    border: none;
+    color: #ff6666;
+    font-size: 2rem;
+    cursor: pointer;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+}
+
+.modal-close:hover {
+    background: rgba(255, 102, 102, 0.2);
+    transform: rotate(90deg);
+}
+
+.auth-form .input-group {
+    position: relative;
+    margin-bottom: 2.5rem;
+}
+
+.auth-form input {
+    width: 100%;
+    padding: 1.5rem 1rem 1.5rem 0;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid rgba(255, 51, 102, 0.5);
+    color: #fff;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 1.1rem;
+}
+
+.auth-form input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.input-line {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--virus-red);
+    transition: width 0.3s ease;
+}
+
+.input-group:focus-within .input-line {
+    width: 100%;
+}
+
+.btn-hack {
+    width: 100%;
+    padding: 1.5rem;
+    background: linear-gradient(45deg, var(--virus-red), #ff3366);
+    color: #fff;
+    border: none;
+    border-radius: 15px;
+    font-family: 'Orbitron', monospace;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    margin-bottom: 1rem;
+}
+
+.btn-secondary {
+    width: 100%;
+    padding: 1rem;
+    background: transparent;
+    color: #ff6666;
+    border: 2px solid rgba(255, 102, 102, 0.5);
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+/* ANIMATIONS */
+@keyframes virusPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+@keyframes virusRings {
+    0% {
+        transform: scale(0.8);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(2);
+        opacity: 0;
+    }
+}
+
+@keyframes modalFade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes virusSpinner {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* LOADING */
+.loading-virus {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 6rem;
+    color: var(--matrix-green);
+    font-size: 1.2rem;
+}
+
+.virus-spinner {
+    width: 60px;
+    height: 60px;
+    border: 4px solid rgba(0, 255, 65, 0.2);
+    border-top: 4px solid var(--matrix-green);
+    border-radius: 50%;
+    animation: virusSpinner 1s linear infinite;
+    margin-bottom: 1rem;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+    .games-grid { grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); }
+}
+
+@media (max-width: 768px) {
+    .container { padding: 0 1rem; }
+    .games-grid { grid-template-columns: 1fr; }
+    .header .container { flex-direction: column; gap: 2rem; text-align: center; }
+    .nav-bar { flex-direction: column; width: 100%; }
+    .search-box { width: 100%; justify-content: center; }
+    .search-box input { min-width: auto; text-align: center; }
+    .form-row { grid-template-columns: 1fr; }
+    #pageTitle { font-size: 2rem; }
+}
